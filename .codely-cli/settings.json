@@ -1,0 +1,14 @@
+{
+  "models": {
+    "deepseek-v4-flash": {
+      "authType": "openai",
+      "displayName": "DeepSeek",
+      "baseUrl": "https://api.deepseek.com",
+      "apiKey": "sk-568c34d6149f43a6830b18df6d3f0a5e",
+      "roles": [
+        "chat"
+      ]
+    }
+  },
+  "model": "codely-core"
+}
