@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
             moveInput = 1f;
 
         if (moveInput != 0f)
-            spriteRenderer.flipX = moveInput < 0f;
+            spriteRenderer.flipX = moveInput > 0f;
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && isGrounded)
             jumpRequested = true;
@@ -117,5 +117,11 @@ public class PlayerController : MonoBehaviour
             status.ResetStatus();
             status.UpdatePotionUI(0);
         }
+
+        // Reactivate all picked-up items
+        foreach (var food in FindObjectsOfType<FoodItem>(true))
+            food.gameObject.SetActive(true);
+        foreach (var potion in FindObjectsOfType<PotionItem>(true))
+            potion.gameObject.SetActive(true);
     }
 }

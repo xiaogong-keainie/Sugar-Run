@@ -10,5 +10,5 @@
       ]
     }
   },
-  "model": "deepseek-v4-flash"
+  "model": "codely-core"
 }

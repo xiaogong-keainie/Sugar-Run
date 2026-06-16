@@ -9,6 +9,6 @@ public class PotionItem : MonoBehaviour
 
         var pc = other.GetComponent<PlayerController>();
         if (pc != null && pc.AddPotion())
-            Destroy(gameObject);
+            gameObject.SetActive(false);
     }
 }

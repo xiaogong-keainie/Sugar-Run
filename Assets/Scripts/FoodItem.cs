@@ -28,6 +28,6 @@ public class FoodItem : MonoBehaviour
             status.AddHunger(hungerBonus);
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
