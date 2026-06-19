@@ -72,6 +72,12 @@ crashlytics-build.properties
 
 # macOS 生成的系统文件
 .DS_Store
+
+# Claude Code 本地配置
+.claude/
+
+# 游戏截图
+/screenshots/
 .DS_Store?
 ._*
 .Spotlight-V100

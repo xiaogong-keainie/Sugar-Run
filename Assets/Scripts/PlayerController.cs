@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private float moveInput;
     private bool jumpRequested;
     private StatusUI statusUI;
+    [HideInInspector] public bool controlsReversed;
 
     static readonly int HashSpeed = Animator.StringToHash("Speed");
     static readonly int HashJump = Animator.StringToHash("Jump");
@@ -56,9 +57,9 @@ public class PlayerController : MonoBehaviour
 
         moveInput = 0f;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            moveInput = -1f;
+            moveInput = controlsReversed ? 1f : -1f;
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            moveInput = 1f;
+            moveInput = controlsReversed ? -1f : 1f;
 
         if (moveInput != 0f)
             spriteRenderer.flipX = moveInput > 0f;
@@ -111,6 +112,7 @@ public class PlayerController : MonoBehaviour
         transform.position = startPosition;
 
         potionCount = 0;
+        controlsReversed = false;
         var status = FindObjectOfType<StatusUI>();
         if (status != null)
         {

@@ -13,6 +13,7 @@ public class CameraFollow : MonoBehaviour
     public float zoomPerUnitHeight = 0.45f;
 
     private Camera cam;
+    [HideInInspector] public Vector3 shakeOffset;
 
     void Awake()
     {
@@ -41,5 +42,6 @@ public class CameraFollow : MonoBehaviour
         float targetX = target.position.x;
         Vector3 desiredPos = new Vector3(targetX, lookY, -10f);
         transform.position = Vector3.Lerp(transform.position, desiredPos, smoothSpeed * Time.deltaTime);
+        transform.position += shakeOffset;
     }
 }
