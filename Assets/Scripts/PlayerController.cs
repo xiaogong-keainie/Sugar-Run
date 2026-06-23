@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -28,6 +29,8 @@ public class PlayerController : MonoBehaviour
     private float moveInput;
     private bool jumpRequested;
     private StatusUI statusUI;
+    private DeathScreenController deathScreen;
+    private bool isDying;
     [HideInInspector] public bool controlsReversed;
 
     static readonly int HashSpeed = Animator.StringToHash("Speed");
@@ -40,6 +43,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         selfCollider = GetComponent<Collider2D>();
         statusUI = FindObjectOfType<StatusUI>();
+        deathScreen = FindObjectOfType<DeathScreenController>();
     }
 
     void Start()
@@ -49,9 +53,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isDying) return;
+
         if (transform.position.y < deathY)
         {
-            Respawn();
+            Die();
             return;
         }
 
@@ -79,6 +85,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isDying) return;
+
         isGrounded = false;
 
         Bounds bounds = selfCollider.bounds;
@@ -104,6 +112,24 @@ public class PlayerController : MonoBehaviour
         potionCount++;
         if (statusUI != null) statusUI.UpdatePotionUI(potionCount);
         return true;
+    }
+
+    public void Die()
+    {
+        if (isDying) return;
+        isDying = true;
+
+        // Stop player
+        rb.velocity = Vector2.zero;
+        moveInput = 0f;
+
+        if (deathScreen != null)
+            deathScreen.ShowDeathScreen(() => { isDying = false; Respawn(); });
+        else
+        {
+            isDying = false;
+            Respawn();
+        }
     }
 
     public void Respawn()

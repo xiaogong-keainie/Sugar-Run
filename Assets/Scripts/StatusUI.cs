@@ -56,7 +56,7 @@ public class StatusUI : MonoBehaviour
         {
             isDead = true;
             var pc = FindObjectOfType<PlayerController>();
-            if (pc != null) pc.Respawn();
+            if (pc != null) pc.Die();
         }
     }
 
