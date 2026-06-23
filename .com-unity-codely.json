@@ -1,10 +1,10 @@
 {
-  "unity_port": 36763,
-  "stream_port": 36896,
+  "unity_port": 56707,
+  "stream_port": 56709,
   "created_date": "2026-05-26T08:29:50.6861066Z",
-  "project_path": "D:/UnityProject/Sugar-Run/Assets",
+  "project_path": "E:/unity/projs/final_proj/Assets",
   "reloading": false,
   "reason": "ready",
   "seq": 1,
-  "last_heartbeat": "2026-06-23T10:18:36.9503584Z"
+  "last_heartbeat": "2026-06-23T12:36:02.9616689Z"
 }

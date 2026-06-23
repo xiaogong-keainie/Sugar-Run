@@ -7529,6 +7529,29 @@ MonoBehaviour:
   duration: 5
   auraColor: {r: 0, g: 0.8, b: 1, a: 0.6}
   auraScale: 2.5
+--- !u!114 &1787966275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787966266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a132d39e1a9b947b9762c3429d9a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highSugarThreshold: 70
+  lowSugarThreshold: 20
+  highSugarAuraColor: {r: 1, g: 0.35, b: 0, a: 0.6}
+  highSugarAuraScale: 3
+  highSugarPulseSpeed: 2
+  lowSugarAuraColor: {r: 0.25, g: 0.45, b: 1, a: 0.5}
+  lowSugarAuraScale: 2.8
+  lowSugarPulseSpeed: 6
+  highSugarTint: {r: 1, g: 0.8, b: 0.6, a: 1}
+  lowSugarTint: {r: 0.6, g: 0.75, b: 1, a: 1}
+  tintLerpSpeed: 5
 --- !u!1001 &1788409350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8477,6 +8500,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 533652421891972481, guid: bc856ea6b9f76cd46aa4e6858f1b9029, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1787966274}
+    - targetCorrespondingSourceObject: {fileID: 533652421891972481, guid: bc856ea6b9f76cd46aa4e6858f1b9029, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1787966275}
   m_SourcePrefab: {fileID: 100100000, guid: bc856ea6b9f76cd46aa4e6858f1b9029, type: 3}
 --- !u!1001 &1969519225
 PrefabInstance:
