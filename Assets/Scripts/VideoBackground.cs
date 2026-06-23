@@ -5,6 +5,7 @@ using UnityEngine.Video;
 [RequireComponent(typeof(VideoPlayer))]
 public class VideoBackground : MonoBehaviour
 {
+    public string videoFileName = "大肠内部.mp4";
     VideoPlayer vp;
     RenderTexture rt;
     GameObject quad;
@@ -17,10 +18,10 @@ public class VideoBackground : MonoBehaviour
         vp.isLooping = true;
         vp.renderMode = VideoRenderMode.RenderTexture;
 
-        if (vp.clip == null)
+        if (vp.clip == null && string.IsNullOrEmpty(vp.url))
         {
             vp.source = VideoSource.Url;
-            vp.url = Application.dataPath + "/大肠内部.mp4";
+            vp.url = Application.dataPath + "/" + videoFileName;
         }
 
         rt = new RenderTexture(1920, 1080, 0, RenderTextureFormat.ARGB32);
