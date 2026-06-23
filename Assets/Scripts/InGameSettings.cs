@@ -17,6 +17,7 @@ public class InGameSettings : MonoBehaviour
     public GameObject victoryPanel;
 
     private bool isPaused;
+    private VideoBackground videoBackground;
 
     void Start()
     {
@@ -26,11 +27,22 @@ public class InGameSettings : MonoBehaviour
         if (settingsButton != null)
             settingsButton.onClick.AddListener(OpenSettings);
 
+        // Find VideoBackground on Main Camera for direct volume control
+        var mainCam = Camera.main;
+        if (mainCam != null)
+            videoBackground = mainCam.GetComponent<VideoBackground>();
+
+        float currentVolume = GameManager.Instance != null ? GameManager.Instance.GetVolume() : AudioListener.volume;
+
+        // Sync VideoPlayer volume to match current setting
+        if (videoBackground != null)
+            videoBackground.SetVolume(currentVolume);
+
         if (volumeSlider != null)
         {
             volumeSlider.minValue = 0f;
             volumeSlider.maxValue = 1f;
-            volumeSlider.value = GameManager.Instance != null ? GameManager.Instance.GetVolume() : 1f;
+            volumeSlider.value = currentVolume;
             volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
         }
 
@@ -75,6 +87,10 @@ public class InGameSettings : MonoBehaviour
     {
         if (GameManager.Instance != null)
             GameManager.Instance.SetVolume(value);
+
+        // Directly control the VideoPlayer's audio volume
+        if (videoBackground != null)
+            videoBackground.SetVolume(value);
     }
 
     void ExitToStart()

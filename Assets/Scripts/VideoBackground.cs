@@ -20,6 +20,11 @@ public class VideoBackground : MonoBehaviour
         vp.isLooping = true;
         vp.renderMode = VideoRenderMode.RenderTexture;
 
+        // Enable audio output through the VideoPlayer
+        vp.audioOutputMode = VideoAudioOutputMode.Direct;
+        vp.controlledAudioTrackCount = 1;
+        vp.SetDirectAudioVolume(0, AudioListener.volume);
+
         if (vp.clip == null && string.IsNullOrEmpty(vp.url))
         {
             vp.source = VideoSource.Url;
@@ -75,9 +80,17 @@ public class VideoBackground : MonoBehaviour
         SizeQuadToView();
     }
 
+    public void SetVolume(float volume)
+    {
+        if (vp != null && vp.controlledAudioTrackCount > 0)
+            vp.SetDirectAudioVolume(0, volume);
+    }
+
     void OnPrepared(VideoPlayer source)
     {
         source.prepareCompleted -= OnPrepared;
+        // Re-apply current volume after preparation (VideoPlayer resets on prepare)
+        source.SetDirectAudioVolume(0, AudioListener.volume);
         mat.mainTexture = rt;
         source.Play();
     }
