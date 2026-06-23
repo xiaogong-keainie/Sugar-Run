@@ -6,9 +6,11 @@ using UnityEngine.Video;
 public class VideoBackground : MonoBehaviour
 {
     public string videoFileName = "大肠内部.mp4";
+    public Color fallbackColor = new Color(0.5f, 0.7f, 1f);
     VideoPlayer vp;
     RenderTexture rt;
     GameObject quad;
+    Material mat;
 
     void Awake()
     {
@@ -28,15 +30,20 @@ public class VideoBackground : MonoBehaviour
         rt.Create();
         vp.targetTexture = rt;
 
-        // Quad behind everything
+        // Quad with fallback color (video will replace it when ready)
         quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
         quad.name = "VideoBackgroundQuad";
         Destroy(quad.GetComponent<Collider>());
         quad.transform.SetParent(transform, false);
         quad.transform.localPosition = new Vector3(0, 0, cam.farClipPlane * 0.99f);
 
-        var mat = new Material(Shader.Find("Unlit/Texture"));
-        mat.mainTexture = rt;
+        // 1x1 texture with fallback color for when video is off
+        var fallbackTex = new Texture2D(1, 1);
+        fallbackTex.SetPixel(0, 0, fallbackColor);
+        fallbackTex.Apply();
+
+        mat = new Material(Shader.Find("Unlit/Texture"));
+        mat.mainTexture = fallbackTex;
         quad.GetComponent<Renderer>().material = mat;
 
         SizeQuadToView();
@@ -71,6 +78,7 @@ public class VideoBackground : MonoBehaviour
     void OnPrepared(VideoPlayer source)
     {
         source.prepareCompleted -= OnPrepared;
+        mat.mainTexture = rt;
         source.Play();
     }
 

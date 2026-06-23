@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 7418473687933121556}
   - component: {fileID: 5840965280534433119}
   - component: {fileID: 2889619938588482117}
+  - component: {fileID: 1901649112314038033}
   m_Layer: 0
   m_HasEditorInfo: 1
   m_Name: Player
@@ -276,6 +277,24 @@ MonoBehaviour:
     m_Bits: 4294967295
   startPosition: {x: 1, y: 1, z: 0}
   deathY: -4
+  maxPotions: 3
+  sugarDrainPerUse: 15
+  controlsReversed: 0
+--- !u!114 &1901649112314038033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533652421891972481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aaa3fe0546c5ec4ca5ce105b6959632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 5
+  auraColor: {r: 0, g: 0.8, b: 1, a: 0.6}
+  auraScale: 2.5
 --- !u!1 &1994899901111288213
 GameObject:
   m_ObjectHideFlags: 0

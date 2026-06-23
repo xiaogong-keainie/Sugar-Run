@@ -32,6 +32,7 @@ public class StatusUI : MonoBehaviour
     public float maxSugar = 100f;
 
     private bool isDead;
+    [HideInInspector] public bool pauseDepletion;
 
     void Start()
     {
@@ -44,8 +45,11 @@ public class StatusUI : MonoBehaviour
     {
         if (isDead) return;
 
-        hunger = Mathf.Clamp(hunger - hungerRate * Time.deltaTime, 0f, maxHunger);
-        sugar = Mathf.Clamp(sugar - sugarRate * Time.deltaTime, 0f, maxSugar);
+        if (!pauseDepletion)
+        {
+            hunger = Mathf.Clamp(hunger - hungerRate * Time.deltaTime, 0f, maxHunger);
+            sugar = Mathf.Clamp(sugar - sugarRate * Time.deltaTime, 0f, maxSugar);
+        }
         UpdateStatusUI();
 
         if (hunger <= 0f || sugar <= 0f)
