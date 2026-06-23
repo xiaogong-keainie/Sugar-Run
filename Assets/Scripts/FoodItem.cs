@@ -6,6 +6,12 @@ public class FoodItem : MonoBehaviour
     public float sugarBonus = 10f;
     public float hungerBonus = 10f;
 
+    [Header("Audio")]
+    public AudioClip pickupSound;
+    public float volume = 1f;
+
+    private static AudioSource audioSource;
+
     void Awake()
     {
         if (GetComponent<Collider2D>() == null)
@@ -13,6 +19,13 @@ public class FoodItem : MonoBehaviour
             CircleCollider2D col = gameObject.AddComponent<CircleCollider2D>();
             col.isTrigger = true;
             col.radius = 0.5f;
+        }
+
+        if (audioSource == null)
+        {
+            var go = new GameObject("FoodAudioSource");
+            audioSource = go.AddComponent<AudioSource>();
+            DontDestroyOnLoad(go);
         }
     }
 
@@ -27,6 +40,9 @@ public class FoodItem : MonoBehaviour
             status.AddSugar(sugarBonus);
             status.AddHunger(hungerBonus);
         }
+
+        if (pickupSound != null && audioSource != null)
+            audioSource.PlayOneShot(pickupSound, volume);
 
         gameObject.SetActive(false);
     }
