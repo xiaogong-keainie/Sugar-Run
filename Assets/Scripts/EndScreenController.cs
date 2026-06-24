@@ -84,9 +84,11 @@ public class EndScreenController : MonoBehaviour
         rawImage.color = Color.white;
 
         var vp = bgGo.AddComponent<VideoPlayer>();
-        vp.source = VideoSource.VideoClip;
         string clipName = System.IO.Path.GetFileNameWithoutExtension(videoFileName);
         vp.clip = Resources.Load<VideoClip>("Videos/" + clipName);
+        vp.source = vp.clip != null ? VideoSource.VideoClip : VideoSource.Url;
+        if (vp.source == VideoSource.Url)
+            vp.url = (Application.isEditor ? Application.dataPath : Application.streamingAssetsPath) + "/" + videoFileName;
         vp.renderMode = VideoRenderMode.APIOnly;
         vp.isLooping = true;
         vp.playOnAwake = true;

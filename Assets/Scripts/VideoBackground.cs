@@ -25,13 +25,20 @@ public class VideoBackground : MonoBehaviour
         vp.controlledAudioTrackCount = 1;
         vp.SetDirectAudioVolume(0, GameManager.Instance != null ? GameManager.Instance.GetVolume() : 1f);
 
-        // Load video from Resources (works in Editor and build)
+        // Load video: try Resources first, then URL fallback
         string clipName = System.IO.Path.GetFileNameWithoutExtension(videoFileName);
         var clip = Resources.Load<VideoClip>("Videos/" + clipName);
         if (clip != null)
         {
             vp.clip = clip;
             vp.source = VideoSource.VideoClip;
+        }
+        else
+        {
+            // Fallback: load from dataPath (Editor) or streamingAssetsPath (build)
+            vp.source = VideoSource.Url;
+            vp.url = (Application.isEditor ? Application.dataPath : Application.streamingAssetsPath) + "/" + videoFileName;
+            vp.clip = null;
         }
 
         rt = new RenderTexture(1920, 1080, 0, RenderTextureFormat.ARGB32);
