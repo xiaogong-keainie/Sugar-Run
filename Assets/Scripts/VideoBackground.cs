@@ -1,93 +1,30 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Video;
 
-[RequireComponent(typeof(VideoPlayer))]
 public class VideoBackground : MonoBehaviour
 {
-    public string videoFileName = "大肠内部.mp4";
-    public Color fallbackColor = new Color(0.5f, 0.7f, 1f);
-    VideoPlayer vp;
-    RenderTexture rt;
-    GameObject quad;
-    Material mat;
+    public VideoClip videoClip;
+
+    private VideoPlayer vp;
 
     void Awake()
     {
-        var cam = GetComponent<Camera>();
-        vp = GetComponent<VideoPlayer>();
-        vp.playOnAwake = false;
+        vp = gameObject.AddComponent<VideoPlayer>();
+        vp.playOnAwake = true;
         vp.isLooping = true;
-        vp.renderMode = VideoRenderMode.RenderTexture;
-
-        // Enable audio output through the VideoPlayer
+        vp.renderMode = VideoRenderMode.CameraFarPlane;
         vp.audioOutputMode = VideoAudioOutputMode.Direct;
         vp.controlledAudioTrackCount = 1;
-        vp.SetDirectAudioVolume(0, GameManager.Instance != null ? GameManager.Instance.GetVolume() : 1f);
 
-        // Load video: try Resources first, then URL fallback
-        string clipName = System.IO.Path.GetFileNameWithoutExtension(videoFileName);
-        var clip = Resources.Load<VideoClip>("Videos/" + clipName);
-        if (clip != null)
+        if (videoClip != null)
         {
-            vp.clip = clip;
+            vp.clip = videoClip;
             vp.source = VideoSource.VideoClip;
         }
-        else
-        {
-            // Fallback: load from dataPath (Editor) or streamingAssetsPath (build)
-            vp.source = VideoSource.Url;
-            vp.url = (Application.isEditor ? Application.dataPath : Application.streamingAssetsPath) + "/" + videoFileName;
-            vp.clip = null;
-        }
 
-        rt = new RenderTexture(1920, 1080, 0, RenderTextureFormat.ARGB32);
-        rt.Create();
-        vp.targetTexture = rt;
+        vp.SetDirectAudioVolume(0, GameManager.Instance != null ? GameManager.Instance.GetVolume() : 1f);
 
-        // Quad with fallback color (video will replace it when ready)
-        quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        quad.name = "VideoBackgroundQuad";
-        Destroy(quad.GetComponent<Collider>());
-        quad.transform.SetParent(transform, false);
-        quad.transform.localPosition = new Vector3(0, 0, cam.farClipPlane * 0.99f);
-
-        // 1x1 texture with fallback color for when video is off
-        var fallbackTex = new Texture2D(1, 1);
-        fallbackTex.SetPixel(0, 0, fallbackColor);
-        fallbackTex.Apply();
-
-        mat = new Material(Shader.Find("Unlit/Texture"));
-        mat.mainTexture = fallbackTex;
-        quad.GetComponent<Renderer>().material = mat;
-
-        SizeQuadToView();
-        StartCoroutine(SizeQuadDelayed());
-
-        vp.prepareCompleted += OnPrepared;
-        vp.Prepare();
-    }
-
-    IEnumerator SizeQuadDelayed()
-    {
-        // Retry sizing after CameraFollow adjusts ortho size
-        yield return new WaitForEndOfFrame();
-        SizeQuadToView();
-    }
-
-    void SizeQuadToView()
-    {
-        var cam = GetComponent<Camera>();
-        if (cam == null || quad == null) return;
-
-        float h = cam.orthographicSize * 2f;
-        float w = h * (16f / 9f);
-        quad.transform.localScale = new Vector3(w, h, 1);
-    }
-
-    void LateUpdate()
-    {
-        SizeQuadToView();
+        Force16To9();
     }
 
     public void SetVolume(float volume)
@@ -96,18 +33,34 @@ public class VideoBackground : MonoBehaviour
             vp.SetDirectAudioVolume(0, volume);
     }
 
-    void OnPrepared(VideoPlayer source)
+    void Force16To9()
     {
-        source.prepareCompleted -= OnPrepared;
-        // Re-apply current volume after preparation (VideoPlayer resets on prepare)
-        source.SetDirectAudioVolume(0, GameManager.Instance != null ? GameManager.Instance.GetVolume() : 1f);
-        mat.mainTexture = rt;
-        source.Play();
-    }
+        var cam = GetComponent<Camera>();
 
-    void OnDestroy()
-    {
-        if (rt != null)
-            rt.Release();
+        float target = 16f / 9f;
+        float current = (float)Screen.width / Screen.height;
+        float scale = current / target;
+
+        if (scale < 1f)
+        {
+            var rect = cam.rect;
+            rect.width = 1f;
+            rect.height = scale;
+            rect.x = 0;
+            rect.y = (1f - scale) / 2f;
+            cam.rect = rect;
+        }
+        else
+        {
+            var rect = cam.rect;
+            rect.width = 1f / scale;
+            rect.height = 1f;
+            rect.x = (1f - 1f / scale) / 2f;
+            rect.y = 0;
+            cam.rect = rect;
+        }
+
+        if (!Application.isEditor)
+            Screen.fullScreen = true;
     }
 }

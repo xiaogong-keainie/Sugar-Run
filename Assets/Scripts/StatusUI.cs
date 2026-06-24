@@ -143,19 +143,10 @@ public class StatusUI : MonoBehaviour
         tmp.fontSize = 128;
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.color = Color.yellow;
-        tmp.characterSpacing = 8;
+        tmp.characterSpacing = 20;
         if (victoryFont != null)
             tmp.font = victoryFont;
         else
             tmp.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
-
-        // Gold outline
-        var outlineMat = Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Outline");
-        if (outlineMat != null)
-        {
-            tmp.fontMaterial = Object.Instantiate(outlineMat);
-            tmp.fontMaterial.SetColor("_OutlineColor", new Color(1f, 0.78f, 0f, 1f));
-            tmp.fontMaterial.SetFloat("_OutlineWidth", 0.2f);
-        }
     }
 }

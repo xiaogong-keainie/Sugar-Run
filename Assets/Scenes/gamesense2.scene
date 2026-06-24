@@ -8058,8 +8058,8 @@ GameObject:
   - component: {fileID: 1659192092}
   - component: {fileID: 1659192091}
   - component: {fileID: 1659192090}
-  - component: {fileID: 1659192096}
   - component: {fileID: 1659192095}
+  - component: {fileID: 1659192096}
   m_Layer: 0
   m_HasEditorInfo: 1
   m_Name: Main Camera
@@ -8228,44 +8228,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb50b95676061445acae32c6e123f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoFileName: "\u5927\u80A0\u5185\u90E83.mp4"
-  fallbackColor: {r: 0.7803922, g: 0.5882353, b: 0.5764706, a: 1}
---- !u!328 &1659192096
-VideoPlayer:
+  videoClip: {fileID: 32900000, guid: 3d84d9d785e6ec9419d37a54d6666650, type: 3}
+--- !u!114 &1659192096
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659192089}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: a90b72879bed4204a9f161707a979ec1, type: 3}
-  m_TargetCameraAlpha: 1
-  m_TargetCamera3DLayout: 0
-  m_TargetCamera: {fileID: 1659192093}
-  m_TargetTexture: {fileID: 0}
-  m_TimeReference: 0
-  m_TargetMaterialRenderer: {fileID: 0}
-  m_TargetMaterialProperty: <noninit>
-  m_RenderMode: 0
-  m_AspectRatio: 2
-  m_DataSource: 0
-  m_TimeUpdateMode: 2
-  m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
-  m_Url: "D:/UnityProject/Sugar-Run/Assets/\u5927\u80A0\u5185\u90E83.mp4"
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 0
-  m_SkipOnDrop: 1
-  m_Looping: 1
-  m_WaitForFirstFrame: 1
-  m_FrameReadyEventEnabled: 0
-  m_VideoShaders: []
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36efebf807fdddd418fd3f57b958c6c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmClip: {fileID: 8300000, guid: dbfbab5ed1abb9043b188f67488a5d57, type: 3}
 --- !u!1001 &1688049982
 PrefabInstance:
   m_ObjectHideFlags: 0
