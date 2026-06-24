@@ -229,7 +229,14 @@ MonoBehaviour:
   videoPlayer: {fileID: 734318434}
   videoFileName: "\u5F00\u573A\u52A8\u753B.mp4"
   promptText: {fileID: 1974714341}
+  promptTMP: {fileID: 0}
   videoDisplay: {fileID: 0}
+  blinkSpeed: 2
+  blinkMinAlpha: 0.5
+  blinkMaxAlpha: 1
+  promptFontSize: 64
+  promptFont: {fileID: 0}
+  promptCharacterSpacing: 10
 --- !u!81 &734318433
 AudioListener:
   m_ObjectHideFlags: 0

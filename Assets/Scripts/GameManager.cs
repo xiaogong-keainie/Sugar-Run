@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         volume = PlayerPrefs.GetFloat("Volume", 1f);
-        AudioListener.volume = volume;
     }
 
     /// <summary>Called by TrophyItem when the player picks up a trophy.</summary>
@@ -37,22 +36,12 @@ public class GameManager : MonoBehaviour
     {
         if (transitioning) return;
         transitioning = true;
-
-        currentLevelIndex++;
-
-        if (currentLevelIndex >= levelScenes.Length)
-        {
-            // All levels complete — load end screen
-            SceneManager.LoadScene(endScene);
-        }
-        else
-        {
-            SceneManager.LoadScene(levelScenes[currentLevelIndex]);
-        }
+        SceneManager.LoadScene(endScene);
     }
 
     public void LoadStartScene()
     {
+        transitioning = false;
         SceneManager.LoadScene(startScene);
     }
 
@@ -60,11 +49,13 @@ public class GameManager : MonoBehaviour
     {
         if (index < 0 || index >= levelScenes.Length) return;
         currentLevelIndex = index;
+        transitioning = false;
         SceneManager.LoadScene(levelScenes[index]);
     }
 
     public void LoadEndScene()
     {
+        transitioning = false;
         SceneManager.LoadScene(endScene);
     }
 
@@ -80,7 +71,6 @@ public class GameManager : MonoBehaviour
     public void SetVolume(float v)
     {
         volume = Mathf.Clamp01(v);
-        AudioListener.volume = volume;
         PlayerPrefs.SetFloat("Volume", volume);
     }
 

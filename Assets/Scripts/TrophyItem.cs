@@ -34,14 +34,15 @@ public class TrophyItem : MonoBehaviour
         if (status != null)
             status.ShowVictory();
 
-        StartCoroutine(TransitionAfterDelay());
+        // Start coroutine on GameManager (always active) instead of this inactive object
+        if (GameManager.Instance != null)
+            GameManager.Instance.StartCoroutine(TransitionAfterDelay());
     }
 
     IEnumerator TransitionAfterDelay()
     {
         yield return new WaitForSeconds(transitionDelay);
 
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnTrophyCollected();
+        GameManager.Instance.OnTrophyCollected();
     }
 }

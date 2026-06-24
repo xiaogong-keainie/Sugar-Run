@@ -22,6 +22,7 @@ public class StatusUI : MonoBehaviour
     [Header("Victory")]
     public GameObject victoryPanel;
     public TMP_Text victoryText;
+    public TMP_FontAsset victoryFont;
 
     [Header("Depletion Rate (per second)")]
     public float hungerRate = 2f;
@@ -129,7 +130,7 @@ public class StatusUI : MonoBehaviour
         rt.anchorMin = Vector2.zero;
         rt.anchorMax = Vector2.one;
         rt.sizeDelta = Vector2.zero;
-        go.GetComponent<Image>().color = new Color(0, 0, 0, 0.6f);
+        go.GetComponent<Image>().color = new Color(0, 0, 0, 0.85f);
 
         var textGo = new GameObject("VictoryText", typeof(RectTransform), typeof(TextMeshProUGUI));
         textGo.transform.SetParent(go.transform, false);
@@ -139,8 +140,22 @@ public class StatusUI : MonoBehaviour
         trt.sizeDelta = Vector2.zero;
         var tmp = textGo.GetComponent<TextMeshProUGUI>();
         tmp.text = "恭喜通关！";
-        tmp.fontSize = 48;
+        tmp.fontSize = 128;
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.color = Color.yellow;
+        tmp.characterSpacing = 8;
+        if (victoryFont != null)
+            tmp.font = victoryFont;
+        else
+            tmp.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
+
+        // Gold outline
+        var outlineMat = Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Outline");
+        if (outlineMat != null)
+        {
+            tmp.fontMaterial = Object.Instantiate(outlineMat);
+            tmp.fontMaterial.SetColor("_OutlineColor", new Color(1f, 0.78f, 0f, 1f));
+            tmp.fontMaterial.SetFloat("_OutlineWidth", 0.2f);
+        }
     }
 }
