@@ -25,11 +25,10 @@ public class VideoBackground : MonoBehaviour
         vp.controlledAudioTrackCount = 1;
         vp.SetDirectAudioVolume(0, GameManager.Instance != null ? GameManager.Instance.GetVolume() : 1f);
 
-        if (vp.clip == null && string.IsNullOrEmpty(vp.url))
-        {
-            vp.source = VideoSource.Url;
-            vp.url = Application.streamingAssetsPath + "/" + videoFileName;
-        }
+        // Always use URL-based playback from StreamingAssets
+        vp.source = VideoSource.Url;
+        vp.url = Application.streamingAssetsPath + "/" + videoFileName;
+        vp.clip = null;
 
         rt = new RenderTexture(1920, 1080, 0, RenderTextureFormat.ARGB32);
         rt.Create();
