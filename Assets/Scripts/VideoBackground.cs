@@ -23,12 +23,12 @@ public class VideoBackground : MonoBehaviour
         // Enable audio output through the VideoPlayer
         vp.audioOutputMode = VideoAudioOutputMode.Direct;
         vp.controlledAudioTrackCount = 1;
-        vp.SetDirectAudioVolume(0, AudioListener.volume);
+        vp.SetDirectAudioVolume(0, GameManager.Instance != null ? GameManager.Instance.GetVolume() : 1f);
 
         if (vp.clip == null && string.IsNullOrEmpty(vp.url))
         {
             vp.source = VideoSource.Url;
-            vp.url = Application.dataPath + "/" + videoFileName;
+            vp.url = Application.streamingAssetsPath + "/" + videoFileName;
         }
 
         rt = new RenderTexture(1920, 1080, 0, RenderTextureFormat.ARGB32);
@@ -90,7 +90,7 @@ public class VideoBackground : MonoBehaviour
     {
         source.prepareCompleted -= OnPrepared;
         // Re-apply current volume after preparation (VideoPlayer resets on prepare)
-        source.SetDirectAudioVolume(0, AudioListener.volume);
+        source.SetDirectAudioVolume(0, GameManager.Instance != null ? GameManager.Instance.GetVolume() : 1f);
         mat.mainTexture = rt;
         source.Play();
     }

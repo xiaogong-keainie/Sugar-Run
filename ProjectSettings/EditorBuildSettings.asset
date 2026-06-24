@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScene.scene
     guid: 3d89437c897adae458672058add07e47
   - enabled: 1
+    path: Assets/Scenes/EndScene.scene
+    guid: 53a617c4e44fae744ba607632fc7dcd1
+  - enabled: 1
     path: Assets/Scenes/gamesense1.scene
     guid: 7e46403cd1a06ef40b938d0fa3cfa91f
   - enabled: 1
@@ -17,9 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/gamesense3.scene
     guid: 2910d81b32bda3b4c8de1f2cfc29b463
-  - enabled: 1
-    path: Assets/Scenes/EndScene.scene
-    guid: 53a617c4e44fae744ba607632fc7dcd1
   m_BuildProfiles: []
   m_configObjects: {}
   m_SlimFeaturesWeixinMiniGame:
