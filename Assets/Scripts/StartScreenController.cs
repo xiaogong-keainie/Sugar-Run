@@ -62,7 +62,7 @@ public class StartScreenController : MonoBehaviour
         }
 
         videoPlayer.source = VideoSource.Url;
-        videoPlayer.url = Application.streamingAssetsPath + "/" + videoFileName;
+        videoPlayer.url = (Application.isEditor ? Application.dataPath : Application.streamingAssetsPath) + "/" + videoFileName;
         videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
         videoPlayer.playOnAwake = false;
         videoPlayer.isLooping = false;

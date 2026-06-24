@@ -85,7 +85,7 @@ public class EndScreenController : MonoBehaviour
 
         var vp = bgGo.AddComponent<VideoPlayer>();
         vp.source = VideoSource.Url;
-        vp.url = Application.streamingAssetsPath + "/" + videoFileName;
+        vp.url = (Application.isEditor ? Application.dataPath : Application.streamingAssetsPath) + "/" + videoFileName;
         vp.renderMode = VideoRenderMode.APIOnly;
         vp.isLooping = true;
         vp.playOnAwake = true;
