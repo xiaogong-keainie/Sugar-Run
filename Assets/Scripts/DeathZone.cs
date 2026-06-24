@@ -7,7 +7,7 @@ public class DeathZone : MonoBehaviour
         if (other.CompareTag("Player") || other.GetComponent<PlayerController>() != null)
         {
             var pc = other.GetComponent<PlayerController>();
-            if (pc != null) pc.Respawn();
+            if (pc != null) pc.Die();
         }
     }
 }

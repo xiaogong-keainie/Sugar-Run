@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -15,9 +16,15 @@ public class PlayerController : MonoBehaviour
     public Vector3 startPosition = new Vector3(1f, 1f, 0f);
     public float deathY = -4f;
 
+    [Header("Audio")]
+    public AudioClip deathSound;
+    public float deathSoundVolume = 1f;
+
     [Header("Potion")]
     public int maxPotions = 3;
     public float sugarDrainPerUse = 15f;
+    public AudioClip usePotionSound;
+    public float usePotionVolume = 1f;
 
     private int potionCount;
     private Rigidbody2D rb;
@@ -28,6 +35,9 @@ public class PlayerController : MonoBehaviour
     private float moveInput;
     private bool jumpRequested;
     private StatusUI statusUI;
+    private DeathScreenController deathScreen;
+    private AudioSource audioSource;
+    private bool isDying;
     [HideInInspector] public bool controlsReversed;
 
     static readonly int HashSpeed = Animator.StringToHash("Speed");
@@ -40,6 +50,10 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         selfCollider = GetComponent<Collider2D>();
         statusUI = FindObjectOfType<StatusUI>();
+        deathScreen = FindObjectOfType<DeathScreenController>();
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     void Start()
@@ -49,9 +63,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isDying) return;
+
         if (transform.position.y < deathY)
         {
-            Respawn();
+            Die();
             return;
         }
 
@@ -72,6 +88,8 @@ public class PlayerController : MonoBehaviour
             statusUI.AddSugar(-sugarDrainPerUse);
             potionCount--;
             statusUI.UpdatePotionUI(potionCount);
+            if (usePotionSound != null && audioSource != null)
+                audioSource.PlayOneShot(usePotionSound, usePotionVolume);
         }
 
         animator.SetFloat(HashSpeed, Mathf.Abs(moveInput));
@@ -79,6 +97,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isDying) return;
+
         isGrounded = false;
 
         Bounds bounds = selfCollider.bounds;
@@ -104,6 +124,27 @@ public class PlayerController : MonoBehaviour
         potionCount++;
         if (statusUI != null) statusUI.UpdatePotionUI(potionCount);
         return true;
+    }
+
+    public void Die()
+    {
+        if (isDying) return;
+        isDying = true;
+
+        if (deathSound != null && audioSource != null)
+            audioSource.PlayOneShot(deathSound, deathSoundVolume);
+
+        // Stop player
+        rb.velocity = Vector2.zero;
+        moveInput = 0f;
+
+        if (deathScreen != null)
+            deathScreen.ShowDeathScreen(() => { isDying = false; Respawn(); });
+        else
+        {
+            isDying = false;
+            Respawn();
+        }
     }
 
     public void Respawn()

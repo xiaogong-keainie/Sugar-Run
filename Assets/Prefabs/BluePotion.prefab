@@ -103,6 +103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481ecbd1fd9eb9a43aab9e29b3bea3b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  potionType: 0
+  pickupSound: {fileID: 8300000, guid: 4def4a05dc048ac48a69407aaa34d6c0, type: 3}
+  volume: 1
+  freezeDuration: 5
 --- !u!114 &-1189925752275856289
 MonoBehaviour:
   m_ObjectHideFlags: 0
